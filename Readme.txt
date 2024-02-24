@@ -2,8 +2,6 @@ Team Members:
 
 Name:Priyanka Cheerla
 Uta Id: 1002082168
-Name:Saikiran Anumala
-UTA ID:1002074049
 
 
 Zip file  consists 5 files :
