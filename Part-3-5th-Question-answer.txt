@@ -1,0 +1,35 @@
+Part-3
+5.Write following two triggers –
+1.To notify a member about his membership renewal.
+
+DELIMITER //
+
+CREATE TRIGGER NotifyMembershipRenewal
+BEFORE UPDATE ON Member
+FOR EACH ROW
+BEGIN
+    IF NEW.MembershipExpiryDate - INTERVAL 30 DAY = CURRENT_DATE THEN
+        INSERT INTO Notifications (MemberID, Message, NotificationDate)
+        VALUES (NEW.MemberID, 'Your membership is due for renewal in 30 days.', CURRENT_DATE);
+    END IF;
+END;
+
+//
+DELIMITER ;
+
+2.To notify a member about the outstanding overdue book.
+
+DELIMITER //
+
+CREATE TRIGGER NotifyOverdueBook
+AFTER UPDATE ON BorrowingActivity
+FOR EACH ROW
+BEGIN
+    IF NEW.ReturnDate IS NULL AND NEW.DueDate < CURRENT_DATE THEN
+        INSERT INTO Notifications (MemberID, Message, NotificationDate)
+        VALUES (NEW.MemberID, 'You have an outstanding overdue book.', CURRENT_DATE);
+    END IF;
+END;
+
+//
+DELIMITER ;

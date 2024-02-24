@@ -1,0 +1,18 @@
+Part-3
+
+3.Write a query that will prepare a report for weekly Borrowing activity by Subject area, by Author, number of copies and number of days loaned out.
+
+SELECT 
+    B.SubjectArea,
+    B.Author,
+    COUNT(BA.ISBN) AS NumberOfCopies,
+    AVG(DATEDIFF(COALESCE(BA.ReturnDate, CURRENT_DATE), BA.BorrowDate)) AS AverageDaysLoaned
+FROM 
+    BorrowingActivity BA
+JOIN 
+    Book B ON BA.ISBN = B.ISBN
+WHERE 
+    BA.BorrowDate BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 1 WEEK) AND CURRENT_DATE
+GROUP BY 
+    B.SubjectArea, B.Author;
+

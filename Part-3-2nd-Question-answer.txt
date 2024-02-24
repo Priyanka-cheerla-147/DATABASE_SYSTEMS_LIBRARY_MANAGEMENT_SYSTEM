@@ -1,0 +1,28 @@
+
+2.Write queries to retrieve and print all the data you entered. Try to print the data so that it is easy to understand (for example, print appropriate headings, such as: Authors, Book Title, Subject area etc.).
+
+
+1.Databse I have  used
+  use pxc2168;
+2.Query to know what are the tables available in database
+  show tables;
+3. Queries to show the table structure
+   DESCRIBE book;
+   DESCRIBE  borrowingactivity;
+   DESCRIBE  catalog;
+   DESCRIBE  member;
+   DESCRIBE  librarystaff;
+   DESCRIBE overduenotice;
+   DESCRIBE professor;
+   DESCRIBE wishlist;
+
+4.Queries for show the data inside the tables
+ select * from book;
+ select * from  borrowingactivity;
+ select * from  catalog;
+ select * from  member;
+ select * from  librarystaff;
+ select * from  professor;
+ select * from  overduenotice;
+ select * from   wishlist;
+

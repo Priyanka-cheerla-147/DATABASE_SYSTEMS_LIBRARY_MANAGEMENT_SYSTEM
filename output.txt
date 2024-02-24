@@ -1,0 +1,180 @@
+mysql> source /home/pxc2168/Db_project/DB1_PROJECT2/queries.sql;
+Query OK, 0 rows affected (0.10 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+Query OK, 0 rows affected (0.10 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 30 rows affected (0.02 sec)
+Records: 30  Duplicates: 0  Warnings: 0
+
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> use pxc2168;
+Database changed
+mysql> tee outputfinal.log;
+mysql> show tables;
++--------------------+
+| Tables_in_pxc2168  |
++--------------------+
+| books              |
+| borrowingactivity  |
+| catalog            |
+| checkoutstaff      |
+| chieflibrarian     |
+| companymember      |
+| department1        |
+| dependent          |
+| dept_locations     |
+| employee1          |
+| homemember         |
+| libraryassistant   |
+| librarystaff       |
+| members            |
+| project            |
+| referencelibrarian |
+| subjects           |
+| subjectsbooks      |
+| works_on           |
++--------------------+
+19 rows in set (0.01 sec)
+
+mysql> describe members;
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| MemberID         | int          | NO   | PRI | NULL    |       |
+| SSN              | varchar(11)  | NO   | UNI | NULL    |       |
+| CampusAddress    | varchar(255) | NO   |     | NULL    |       |
+| HomeAddress      | varchar(255) | NO   |     | NULL    |       |
+| PhoneNumber      | varchar(15)  | YES  |     | NULL    |       |
+| MemberCardNumber | varchar(20)  | NO   | UNI | NULL    |       |
+| ExpirationDate   | date         | NO   |     | NULL    |       |
+| GracePeriod      | int          | NO   |     | NULL    |       |
+| Active           | varchar(3)   | YES  |     | Yes     |       |
++------------------+--------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> describe books;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| ISBN            | varchar(20)  | NO   | PRI | NULL    |       |
+| Title           | varchar(255) | NO   |     | NULL    |       |
+| Author          | varchar(100) | YES  |     | NULL    |       |
+| SubjectArea     | varchar(50)  | YES  |     | NULL    |       |
+| Description     | text         | YES  |     | NULL    |       |
+| Copies          | int          | NO   |     | NULL    |       |
+| ReferenceStatus | varchar(3)   | YES  |     | No      |       |
++-----------------+--------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> describe catalog;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| CatalogID   | int         | NO   | PRI | NULL    |       |
+| ISBN        | varchar(20) | NO   | MUL | NULL    |       |
+| Description | text        | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> describe librarystaff;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| StaffID | int          | NO   | PRI | NULL    |       |
+| Name    | varchar(255) | NO   |     | NULL    |       |
+| Role    | varchar(50)  | NO   |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> describe borrowingactivity;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| BorrowID   | int         | NO   | PRI | NULL    |       |
+| MemberID   | int         | NO   | MUL | NULL    |       |
+| BookISBN   | varchar(20) | NO   | MUL | NULL    |       |
+| BorrowDate | date        | NO   |     | NULL    |       |
+| ReturnDate | date        | YES  |     | NULL    |       |
+| Returned   | varchar(3)  | YES  |     | Yes     |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> describe homemember;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| MemberID | int  | NO   | PRI | NULL    |       |
++----------+------+------+-----+---------+-------+
+1 row in set (0.02 sec)
+
+mysql> describe companymember;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| MemberID | int  | NO   | PRI | NULL    |       |
++----------+------+------+-----+---------+-------+
+1 row in set (0.02 sec)
+
+mysql> describe referencelibrarian;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| StaffID   | int         | NO   | PRI | NULL    |       |
+| Specialty | varchar(50) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> describe checkoutstaff;
++---------------+------+------+-----+---------+-------+
+| Field         | Type | Null | Key | Default | Extra |
++---------------+------+------+-----+---------+-------+
+| StaffID       | int  | NO   | PRI | NULL    |       |
+| CheckoutLimit | int  | NO   |     | NULL    |       |
++---------------+------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> describe librarystaff;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| StaffID | int          | NO   | PRI | NULL    |       |
+| Name    | varchar(255) | NO   |     | NULL    |       |
+| Role    | varchar(50)  | NO   |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> describe libraryassistant;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| StaffID    | int         | NO   | PRI | NULL    |       |
+| Department | varchar(50) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> describe  chieflibrarian;
++--------------------------+--------------+------+-----+---------+-------+
+| Field                    | Type         | Null | Key | Default | Extra |
++--------------------------+--------------+------+-----+---------+-------+
+| StaffID                  | int          | NO   | PRI | NULL    |       |
+| ManagementResponsibility | varchar(255) | NO   |     | NULL    |       |
++--------------------------+--------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
